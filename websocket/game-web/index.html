@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			.scene {
+				width: 100%;
+				height: 600px;
+				background: url(img/bg.png);
+				position: relative;
+				margin-top: 5px;
+			}
+
+			.tank {
+				width: 60px;
+				height: 64px;
+				background: url(img/tank_body.png) no-repeat;
+				position: absolute;
+			}
+
+			.gun {
+				width: 38px;
+				height: 67px;
+				background: url(img/tank_gun.png);
+				position: absolute;
+				left: 50%;
+				bottom: 50%;
+				transform: translate(-50%, 30%);
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" placeholder="请输入账户">
+		<button id="join">加入</button>
+		<div class="scene">
+			<!-- <div id="tank" style="left: 0;top: 20px;" class="tank">
+				<div class="gun"></div>
+			</div> -->
+		</div>
+	</body>
+	<script>
+		var ws;
+		var account;
+
+		// 场景
+		var scene = document.querySelector(".scene");
+
+		var joinBtn = document.getElementById("join")
+		joinBtn.onclick = function(e) {
+			var input = document.querySelector("input")
+			if (input.value) {
+				account = input.value;
+				ws = new WebSocket(`ws://localhost:8089/game/${account}`);
+				log("websocket已连接")
+				ws.onopen = function() {
+
+					//创建角色
+					// sendToServer({
+					// 	account: account,
+					// 	type: 2,
+					// })
+
+					// 心跳
+					setInterval(function() {
+						sendToServer({
+							type: 1
+						})
+					}, 1000 * 60)
+				}
+
+				// 监听服务器发回的信息
+				ws.onmessage = function(e) {
+					var msg = JSON.parse(e.data)
+					switch (msg.type) {
+						case 1:
+							log("心跳信息");
+							break;
+						case 2:
+							log("创建角色");
+							createRole(msg);
+							break;
+						case 3:
+							log("角色移动");
+							move(msg);
+							break;
+						case 4:
+							log("角色列表");
+							roles(msg);
+							break;
+						case 5:
+							log("角色退出");
+							quit(msg);
+							break;
+					}
+				}
+			} else {
+				alert("请输入账号");
+			}
+		}
+
+		function quit(msg) {
+			let tank = document.getElementById(msg.account);
+			tank.parentNode.removeChild(tank);
+		}
+
+		function roles(msg) {
+			msg.roles.forEach(item => {
+				createRole(item);
+			})
+		}
+
+		function createRole(msg) {
+			var tankBody = document.getElementById(msg.account)
+			// 判断是否已经存在角色
+			if (tankBody) {
+				tankBody.style.top = msg.top ? msg.top : "20px";
+				tankBody.style.left = msg.left ? msg.left : 0;
+				tankBody.style.transform = msg.rotate;
+			} else {
+				// 角色的组件
+				var tankGun = document.createElement("div");
+				tankGun.className = "gun";
+
+				// 角色的身体
+				var tankBody = document.createElement("div");
+				tankBody.className = "tank";
+				tankBody.style.top = msg.top ? msg.top : "20px";
+				tankBody.style.left = msg.left ? msg.left : 0;
+				tankBody.style.transform = msg.rotate;
+				tankBody.id = msg.account;
+				tankBody.appendChild(tankGun);
+
+				// 角色添加到场景
+				scene.appendChild(tankBody);
+			}
+		}
+
+		function sendToServer(msg) {
+			var msgJson = JSON.stringify(msg)
+			ws.send(msgJson)
+		}
+
+		function log(text) {
+			console.log(text);
+		}
+
+		// 角色位移
+		function move(msg) {
+			var role = document.getElementById(msg.account);
+			role.style.top = msg.top;
+			role.style.left = msg.left;
+			role.style.transform = msg.rotate;
+		}
+
+		// 移动速度
+		var speed = 6;
+		// 按键监听
+		document.onkeydown = function(e) {
+			var tank = document.getElementById(account);
+			// 判断是否已经连接，如果没有连接则不处理按键事件
+			if (!ws) {
+				return;
+			}
+			switch (e.key) {
+				case "w":
+					var top = parseInt(tank.style.top);
+					tank.style.top = top - speed + 'px';
+					tank.style.transform = "rotate(0deg)"
+					break;
+				case "s":
+					var top = parseInt(tank.style.top);
+					tank.style.top = top + speed + 'px';
+					tank.style.transform = "rotate(180deg)"
+					break;
+				case "a":
+					var left = parseInt(tank.style.left);
+					tank.style.left = left - speed + "px";
+					tank.style.transform = "rotate(270deg)"
+					break;
+				case "d":
+					var left = parseInt(tank.style.left);
+					tank.style.left = left + speed + "px";
+					tank.style.transform = "rotate(90deg)"
+					break;
+			}
+
+			// 发送位置信息
+			sendToServer({
+				type: 3,
+				account: account,
+				top: tank.style.top,
+				left: tank.style.left,
+				rotate: tank.style.transform
+			})
+		};
+	</script>
+</html>
