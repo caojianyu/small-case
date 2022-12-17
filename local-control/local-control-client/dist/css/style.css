@@ -1,0 +1,78 @@
+.panel{
+    width: 300px;
+    height: 80px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgb(105, 105, 105);
+}
+
+.data-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    width: 100px;
+}
+
+.data-box>span:first-of-type{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.data-box>span:last-of-type{
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.bottom{
+    width: 100%;
+    height: calc(100% - 80px);
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 10px;
+}
+
+.order-box{
+    display: flex;
+    font-size: 14px;
+    color: #fff;
+    padding: 10px;
+}
+.order-box>div{
+    width: 50%;
+    display: flex;
+}
+.label{
+    flex-shrink: 0;
+    margin-right: 5px;
+}
+.order-box>div:last-of-type .label:last-of-type{
+    margin-left: 5px;
+}
+
+
+input{
+    width: 100%;
+}
+
+
+.btn{
+    height: 40px;
+    margin: 0 10px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    border-radius: 10px;
+    transition: box-shadow .5s ease, transform .2s ease; 
+    will-change: transform;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+
+}
