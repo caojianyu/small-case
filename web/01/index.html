@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      body {
+        background-color: #035af4;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #box {
+        margin: 0 auto;
+        position: relative;
+        top: 60px;
+        width: 1000px;
+        height: 600px;
+        background-color: #2b86f5;
+        border-radius: 20px;
+        color: #fff;
+        display: flex;
+      }
+
+      .method {
+      }
+      .left-box {
+        width: 650px;
+        height: 100%;
+      }
+
+      .right-box {
+        width: 350px;
+        height: 100%;
+        background-color: #6eb4f6;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .center{
+        width: 280px;
+      }
+
+      .center > div,
+      .center > p {
+        font-size: 14px;
+      }
+
+      .method{
+        margin-top: 15px;
+      }
+
+
+      .input-box{
+        height: 45px;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+
+      .login-btn{
+        background-color: #1174FF;
+        outline: none;
+        border: none;
+        width: 100%;
+        height: 45px;
+        font-size: 16px;
+        color: #fff;
+        font-weight: 500;
+        border-radius: 12px;
+      }
+
+      .login-btn:hover{
+        background-color: #3187ff;
+      }
+
+      .link{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 20px 0;
+      }
+
+      .link>div{
+        display: flex;
+        align-items: center;
+      }
+
+      .input-box>.fa{
+        font-size: 24px;
+        color: #BABABA;
+        margin: 0 15px;
+      }
+
+      input{
+        outline: none;
+        border: none;
+      }
+
+      .check{
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        border: 2px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+      }
+      .fa-check{
+        font-size: 12px;
+      }
+    </style>
+    <title>登录</title>
+  </head>
+  <body>
+    <div id="box">
+      <!-- 图片盒子 -->
+      <div class="left-box"></div>
+      <div class="right-box">
+        <div class="center">
+          <h3>登录/LOGIN</h3>
+          <div class="method">
+            <span>账号密码登录</span>
+            /
+            <span>手机号登录</span>
+          </div>
+
+          <div class="input-box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <input type="text" placeholder="用户名" />
+          </div>
+          <p>请输入用户名</p>
+
+          <div class="input-box">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+            <input type="password" placeholder="密码" />
+          </div>
+          <p>请输入密码</p>
+
+          <div class="link">
+            <div>
+              <!-- checkbox -->
+              <div class="check">
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </div>
+              <span>记住用户名</span>
+            </div>
+            <span>忘记密码？</span>
+          </div>
+
+          <button class="login-btn">登 录</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
