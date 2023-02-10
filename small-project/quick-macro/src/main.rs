@@ -65,7 +65,7 @@ fn callback(event: Event) {
         .unwrap();
 
     match event.event_type {
-        EventType::MouseMove { x, y } => record_move(x.to_string(), y.to_string()),
+        EventType::MouseMove { x, y } => record_move(x.to_string(), y.to_string(), file),
         EventType::ButtonPress(button) => record_press(button, file),
         EventType::ButtonRelease(button) => record_release(button, file),
         _ => {}
@@ -73,14 +73,7 @@ fn callback(event: Event) {
 }
 
 /// 记录用户鼠标移动
-fn record_move(x: String, y: String) {
-    let mut file = OpenOptions::new()
-        .write(true)
-        .create(true)
-        .append(true)
-        .open(FILE_NAME.lock().unwrap().as_str())
-        .unwrap();
-
+fn record_move(x: String, y: String, mut file: File) {
     let mut val = String::new();
     val.push_str("move");
     val.push(',');
