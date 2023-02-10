@@ -125,20 +125,18 @@ fn run_record() {
                 let y = arr[2].parse::<f64>().unwrap();
                 send(&EventType::MouseMove { x, y })
             }
-            "press" => {
-                if v1.eq("Left") {
-                    send(&EventType::ButtonPress(Button::Left))
-                } else {
-                    send(&EventType::ButtonPress(Button::Right))
-                }
-            }
-            "release" => {
-                if v1.eq("Left") {
-                    send(&EventType::ButtonRelease(Button::Left))
-                } else {
-                    send(&EventType::ButtonRelease(Button::Right))
-                }
-            }
+            "press" => match v1 {
+                "Left" => send(&EventType::ButtonPress(Button::Left)),
+                "Right" => send(&EventType::ButtonPress(Button::Right)),
+                "Middle" => send(&EventType::ButtonPress(Button::Middle)),
+                _ => {}
+            },
+            "release" => match v1 {
+                "Left" => send(&EventType::ButtonRelease(Button::Left)),
+                "Right" => send(&EventType::ButtonRelease(Button::Right)),
+                "Middle" => send(&EventType::ButtonRelease(Button::Middle)),
+                _ => {}
+            },
             _ => {}
         }
     }
